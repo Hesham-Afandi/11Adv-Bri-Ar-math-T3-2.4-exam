@@ -449,22 +449,25 @@ function gradeExam() {
     
     let sec1 = 0, sec2 = 0, sec3 = 0, sec4 = 0;
     
-    for (let i = 1; i <= 16; i++) {
+    for (let i = 0; i < 16; i++) {
         const selected = document.querySelector(`input[name="q${i}"]:checked`);
         const li = document.getElementById(`q-${i}`);
-        const isCorrect = selected && selected.value === correctAnswersLetters[i-1];
         
-        if (isCorrect) {
-            correctCount++;
-            li.classList.add('correct');
-            li.classList.remove('incorrect');
-            if (i <= 4) sec1++;
-            else if (i <= 8) sec2++;
-            else if (i <= 12) sec3++;
-            else sec4++;
-        } else {
-            li.classList.add('incorrect');
-            li.classList.remove('correct');
+        if (li) {
+            const isCorrect = selected && selected.value === correctAnswersLetters[i];
+            
+            if (isCorrect) {
+                correctCount++;
+                li.classList.add('correct');
+                li.classList.remove('incorrect');
+                if (i < 4) sec1++;
+                else if (i < 8) sec2++;
+                else if (i < 12) sec3++;
+                else sec4++;
+            } else {
+                li.classList.add('incorrect');
+                li.classList.remove('correct');
+            }
         }
     }
 
@@ -541,10 +544,10 @@ function sendResultsToEmail() {
     
     const correctAnswersLetters = ['c','c','b','c','b','c','b','b','b','c','c','b','b','a','b','c'];
     
-    for (let i = 1; i <= 16; i++) {
+    for (let i = 0; i < 16; i++) {
         const sel = document.querySelector(`input[name="q${i}"]:checked`);
-        const isCorrect = sel && sel.value === correctAnswersLetters[i-1];
-        answersHTML += `<tr><td style="border:1px solid #e5e7eb; padding:6px;">${i}</td><td style="border:1px solid #e5e7eb; padding:6px;">${sel ? sel.value.toUpperCase() : '-'}</td><td style="border:1px solid #e5e7eb; padding:6px; color:${isCorrect ? 'green' : 'red'}">${isCorrect ? '✅ ' + (currentLang === 'ar' ? 'صحيح' : 'Correct') : '❌ ' + (currentLang === 'ar' ? 'خطأ' : 'Wrong')}</td></tr>`;
+        const isCorrect = sel && sel.value === correctAnswersLetters[i];
+        answersHTML += `<tr><td style="border:1px solid #e5e7eb; padding:6px;">${i + 1}</td><td style="border:1px solid #e5e7eb; padding:6px;">${sel ? sel.value.toUpperCase() : '-'}</td><td style="border:1px solid #e5e7eb; padding:6px; color:${isCorrect ? 'green' : 'red'}">${isCorrect ? '✅ ' + (currentLang === 'ar' ? 'صحيح' : 'Correct') : '❌ ' + (currentLang === 'ar' ? 'خطأ' : 'Wrong')}</td></tr>`;
     }
     answersHTML += '</table></div>';
 
